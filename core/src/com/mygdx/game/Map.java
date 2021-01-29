@@ -50,6 +50,10 @@ public class Map{
         }
     }
 
+
+
+
+
     private boolean isCellEmpty(int cellX, int cellY){
         if (data[cellX][cellY] == SYMB_GRASS){
             return false;
@@ -57,12 +61,27 @@ public class Map{
         return true;
     }
 
-    public boolean checkSpaceIsEmpty(float x, float y){
+    public int checkSpaceIsEmpty(float x, float y, String side){
         int cellX = (int) x / 40;
         int cellY = (int) y / 40;
-
-        return isCellEmpty(cellX, cellY);
+        if (!isCellEmpty(cellX, cellY)) {
+            if (side.equals("DOWN")){
+                return cellY * 40 + 40;
+            }
+            if (side.equals("LEFT")){
+                return cellX + 40 + 40;
+            }
+            if (side.equals("RIGHT")){
+                return cellX + 40;
+            }
+            if (side.equals("UP")){
+                return cellY + 40;
+            }
+        }
+        return -1;
     }
+
+
 
     public void update(float dt){
 
