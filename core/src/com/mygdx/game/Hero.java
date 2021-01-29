@@ -27,7 +27,7 @@ public class Hero {
         tempPosition.set(position);
         tempPosition.mulAdd(velocity, dt);
 
-        if (checkMovement(position, dt)) {
+        if (checkMovement(position, dt) && checkLeft(position) && checkRight(position)) {
             position.set(tempPosition);
         }
     }
@@ -35,10 +35,7 @@ public class Hero {
 
     public boolean checkMovement(Vector2 position, float dt){
         for (int i = 0; i <= 5 ; i++) {
-            if ((!map.checkSpaceIsEmpty(position.x + 25 + i * 10, position.y))
-                && (!map.checkSpaceIsEmpty(position.x + 25 + i * 10, position.y))
-                && (!map.checkSpaceIsEmpty(position.x + 25, position.y + i * 20))
-                && (!map.checkSpaceIsEmpty(position.x + 25, position.y + i * 20))){
+            if ((!map.checkSpaceIsEmpty(position.x + 25 + i * 10, position.y))){
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                     velocity.y = 50;
                     velocity.x += 300;
@@ -50,15 +47,39 @@ public class Hero {
                     position.mulAdd(velocity, dt);
                 }
                 if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && Gdx.input.isKeyPressed(Input.Keys.D)){
-                    velocity.y = 4000;
-                    velocity.x += 1000;
+                    velocity.y = 7000;
+                    velocity.x += 300;
                     position.mulAdd(velocity, dt);
                 }
                 if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && Gdx.input.isKeyPressed(Input.Keys.A)){
-                    velocity.y = 4000;
-                    velocity.x -= 1000;
+                    velocity.y = 7000;
+                    velocity.x -= 300;
                     position.mulAdd(velocity, dt);
                 }
+                if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+                    velocity.y = 6000;
+                    position.mulAdd(velocity, dt);
+                }
+                return false;
+            }
+
+
+        }
+        return true;
+    }
+
+    public boolean checkLeft(Vector2 position){
+        for (int i = 0; i <= 5 ; i++) {
+            if (!map.checkSpaceIsEmpty(position.x + 25, position.y + i * 20 )){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkRight(Vector2 position){
+        for (int i = 0; i <= 5 ; i++) {
+            if (!map.checkSpaceIsEmpty(position.x + 75, position.y + i * 20 )){
                 return false;
             }
         }
