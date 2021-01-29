@@ -6,13 +6,13 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class Map{
     private static final char SYMB_GRASS = 'g';
-    private char[][] map;
+    private char[][] data;
     private Texture groundTexture;
 
 
     public Map(){
         groundTexture = new Texture("ground.png");
-        map = new char[32][18];
+        data = new char[32][18];
     }
 
 
@@ -20,7 +20,7 @@ public class Map{
         if (x2 > 31) x2 = 31;
         for (int i = x1; i <=x2 ; i++) {
             for (int j = 0; j < height; j++) {
-                map[i][j] = SYMB_GRASS;
+                data[i][j] = SYMB_GRASS;
             }
         }
     }
@@ -43,11 +43,25 @@ public class Map{
     public void render(SpriteBatch batch){
         for (int i = 0; i < 32; i++) {
             for (int j = 0; j < 18; j++) {
-                if (map[i][j] == SYMB_GRASS){
+                if (data[i][j] == SYMB_GRASS){
                     batch.draw(groundTexture, i * 40, j * 40);
                 }
             }
         }
+    }
+
+    private boolean isCellEmpty(int cellX, int cellY){
+        if (data[cellX][cellY] == SYMB_GRASS){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkSpaceIsEmpty(float x, float y){
+        int cellX = (int) x / 40;
+        int cellY = (int) y / 40;
+
+        return isCellEmpty(cellX, cellY);
     }
 
     public void update(float dt){
