@@ -62,9 +62,9 @@ public class Map{
     }
 
     public boolean checkSpaceIsEmpty(float x, float y){
+        if (x < 0 || x > 1280) return false;
         int cellX = (int) x / 40;
         int cellY = (int) y / 40;
-
         return isCellEmpty(cellX, cellY);
     }
 
