@@ -71,23 +71,6 @@ public class Hero {
         return true;
     }
 
-    public boolean checkLeft(Vector2 position){
-        for (int i = 0; i <= 5 ; i++) {
-            if (!map.checkSpaceIsEmpty(position.x + 25, position.y + i * 20 )){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean checkRight(Vector2 position){
-        for (int i = 0; i <= 5 ; i++) {
-            if (!map.checkSpaceIsEmpty(position.x + 75, position.y + i * 20 )){
-                return false;
-            }
-        }
-        return true;
-    }
 
 
     public void render(SpriteBatch batch) {
