@@ -61,24 +61,11 @@ public class Map{
         return true;
     }
 
-    public int checkSpaceIsEmpty(float x, float y, String side){
+    public boolean checkSpaceIsEmpty(float x, float y){
         int cellX = (int) x / 40;
         int cellY = (int) y / 40;
-        if (!isCellEmpty(cellX, cellY)) {
-            if (side.equals("DOWN")){
-                return cellY * 40 + 40;
-            }
-            if (side.equals("LEFT")){
-                return cellX + 40 + 40;
-            }
-            if (side.equals("RIGHT")){
-                return cellX + 40;
-            }
-            if (side.equals("UP")){
-                return cellY + 40;
-            }
-        }
-        return -1;
+
+        return isCellEmpty(cellX, cellY);
     }
 
 

@@ -23,36 +23,26 @@ public class Hero {
     }
 
     public void update(float dt) {
-        velocity.add(0, -400.0f *dt);
+        velocity.set(0, -50);
         position.mulAdd(velocity, dt);
-        checkSide();
-         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-             velocity.x = 10000 * dt;
-         }
-         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-             velocity.x = -10000 * dt;
-         }
-         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-                velocity.y = 8000 * dt;
-         }
+        position.set(position.x, position.y);
+        if (Gdx.input.isKeyPressed(Input.Keys.D)){
+            velocity.x += 300;
+            position.mulAdd(velocity, dt);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)){
+            velocity.x -= 300;
+            position.mulAdd(velocity, dt);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            velocity.y += 300;
+            position.mulAdd(velocity, dt);
+        }
     }
 
 
-    public void checkSide() {
-        for (int i = 25; i <= 75; i += 10) {
-            int temp = map.checkSpaceIsEmpty(position.x + i, position.y, "DOWN");
-            if (temp != -1) {
-                position.y = temp;
-                velocity.y = 0;
-            }
-        }
-        for (int i = 25; i <= 75; i += 10) {
-            int temp = map.checkSpaceIsEmpty(position.x + i, position.y + 100, "UP");
-            if (temp != -1) {
-                position.x = temp;
-            }
-        }
-    }
+
+
 
 
     public void render(SpriteBatch batch) {
