@@ -12,7 +12,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private Map map;
 	private Hero hero;
-	
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -39,7 +39,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		hero.update(dt);
 	}
 
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();

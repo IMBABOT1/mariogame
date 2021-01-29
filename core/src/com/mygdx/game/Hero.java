@@ -23,49 +23,48 @@ public class Hero {
     }
 
     public void update(float dt) {
-        velocity.set(0, -300);
+        velocity.add(0, -600.0f * dt);
         tempPosition.set(position);
-        tempPosition.mulAdd(velocity, dt);
+        tempPosition.add(50, 50);
+        velocity.x *= 0.8f;
 
-        if (checkMovement(position, dt)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.D)){
+            velocity.x = 240.0f;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)){
+            velocity.x = -240.0f;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+            velocity.y = 400.0f;
+        }
+        float len = velocity.len() * dt;
+        float dx = velocity.x * dt / len;
+        float dy = velocity.y * dt / len;
+        for (int i = 0; i < len ; i++) {
+            tempPosition.y += dy;
+            if (checkCollision(tempPosition)) {
+                tempPosition.y -= dy;
+                velocity.y = 0.0f;
+            }
+            tempPosition.x += dx;
+            if (checkCollision(tempPosition)) {
+                tempPosition.x -= dx;
+                velocity.x = 0.0f;
+            }
+        }
+            tempPosition.add(-50, -50);
             position.set(tempPosition);
         }
-    }
 
 
-    public boolean checkMovement(Vector2 position, float dt){
-        for (int i = 0; i <= 5 ; i++) {
-            if ((!map.checkSpaceIsEmpty(position.x + 25 + i * 10, position.y))){
-                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                    velocity.y = 50;
-                    velocity.x += 300;
-                    position.mulAdd(velocity, dt);
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                    velocity.y = 50;
-                    velocity.x -= 300;
-                    position.mulAdd(velocity, dt);
-                }
-                if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && Gdx.input.isKeyPressed(Input.Keys.D)){
-                    velocity.y = 7000;
-                    velocity.x += 300;
-                    position.mulAdd(velocity, dt);
-                }
-                if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && Gdx.input.isKeyPressed(Input.Keys.A)){
-                    velocity.y = 7000;
-                    velocity.x -= 300;
-                    position.mulAdd(velocity, dt);
-                }
-                if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-                    velocity.y = 6000;
-                    position.mulAdd(velocity, dt);
-                }
-                return false;
+
+    public boolean checkCollision(Vector2 position){
+        for (float i = 0; i <6.28 ; i+= 0.1f) {
+            if (!map.checkSpaceIsEmpty(position.x + 30 * (float) Math.cos(i), position.y + 30 * (float) Math.sin(i))){
+                return true;
             }
-
-
         }
-        return true;
+        return false;
     }
 
 
