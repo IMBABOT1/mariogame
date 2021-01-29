@@ -24,25 +24,33 @@ public class Hero {
 
     public void update(float dt) {
         velocity.set(0, -50);
-        position.mulAdd(velocity, dt);
-        position.set(position.x, position.y);
-        if (Gdx.input.isKeyPressed(Input.Keys.D)){
-            velocity.x += 300;
-            position.mulAdd(velocity, dt);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)){
-            velocity.x -= 300;
-            position.mulAdd(velocity, dt);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            velocity.y += 300;
-            position.mulAdd(velocity, dt);
+        tempPosition.set(position);
+        tempPosition.mulAdd(velocity, dt);
+
+        if (checkMovement(position, dt)) {
+            position.set(tempPosition);
         }
     }
 
 
-
-
+    public boolean checkMovement(Vector2 position, float dt){
+        for (int i = 0; i <= 5 ; i++) {
+            if (!map.checkSpaceIsEmpty(position.x + 25 + i * 10, position.y)){
+                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    velocity.y = 50;
+                    velocity.x += 300;
+                    position.mulAdd(velocity, dt);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    velocity.y = 50;
+                    velocity.x -= 300;
+                    position.mulAdd(velocity, dt);
+                }
+                return false;
+            }
+        }
+        return true;
+    }
 
 
     public void render(SpriteBatch batch) {
