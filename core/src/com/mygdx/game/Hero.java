@@ -27,7 +27,8 @@ public class Hero {
         tempPosition.set(position);
         tempPosition.mulAdd(velocity, dt);
 
-        if (checkMovement(position, dt) && checkLeft(position) && checkRight(position)) {
+        if (checkMovement(position, dt)) {
+            velocity.set(0, 0);
             position.set(tempPosition);
         }
     }
@@ -37,34 +38,36 @@ public class Hero {
         for (int i = 0; i <= 5 ; i++) {
             if ((!map.checkSpaceIsEmpty(position.x + 25 + i * 10, position.y))){
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                    velocity.y = 50;
+                    velocity.set(0, 0);
                     velocity.x += 300;
                     position.mulAdd(velocity, dt);
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                    velocity.y = 50;
+                    velocity.set(0, 0);
                     velocity.x -= 300;
                     position.mulAdd(velocity, dt);
                 }
                 if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && Gdx.input.isKeyPressed(Input.Keys.D)){
+                    velocity.set(0, 0);
                     velocity.y = 7000;
-                    velocity.x += 300;
+                    velocity.x += 3000;
                     position.mulAdd(velocity, dt);
                 }
                 if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && Gdx.input.isKeyPressed(Input.Keys.A)){
+                    velocity.set(0, 0);
                     velocity.y = 7000;
-                    velocity.x -= 300;
+                    velocity.x -= 3000;
                     position.mulAdd(velocity, dt);
                 }
                 if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+                    velocity.set(0, 0);
                     velocity.y = 6000;
                     position.mulAdd(velocity, dt);
                 }
                 return false;
             }
-
-
         }
+
         return true;
     }
 
