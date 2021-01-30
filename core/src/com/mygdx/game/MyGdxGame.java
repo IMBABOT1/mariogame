@@ -33,6 +33,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 
+
+
 	public void generateFonts(){
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
