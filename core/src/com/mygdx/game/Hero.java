@@ -96,7 +96,7 @@ public class Hero {
 
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && velocity.y == 0) {
-                velocity.y = 400.0f;
+                velocity.y = 500.0f;
             }
 
             if (Math.abs(velocity.x) > 1.0f) {

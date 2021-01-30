@@ -11,6 +11,11 @@ public class Coins {
 
     private Texture texture;
     private Vector2 position;
+
+    public Circle getHitArea() {
+        return hitArea;
+    }
+
     private Circle hitArea;
     private float scale;
 
