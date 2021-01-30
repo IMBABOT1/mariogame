@@ -8,25 +8,10 @@ import com.mygdx.game.Hero;
 
 public class GrennCoin extends Coins{
 
-
-        public GrennCoin(Texture texture, Vector2 position, Circle circle) {
+    public GrennCoin(Texture texture, Vector2 position, Circle circle) {
             super(texture, position, circle);
         }
 
-        @Override
-        public void prepare() {
-            super.prepare();
-        }
-
-        @Override
-        public void render(SpriteBatch batch) {
-            super.render(batch);
-        }
-
-        @Override
-        public void update(float dt, Hero hero) {
-            super.update(dt, hero);
-        }
-    }
+}
 
 

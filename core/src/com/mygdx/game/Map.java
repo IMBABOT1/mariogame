@@ -3,16 +3,54 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
 public class Map{
+    private class Snow {
+        private Vector2 position;
+        private Vector2 velocity;
+
+        public Snow(){
+            this.position = new Vector2(0, 0);
+            this.velocity = new Vector2(0, 0);
+        }
+
+        public void recreate(){
+            this.position.set(MathUtils.random(0, 1280), MathUtils.random(720, 1440));
+            this.velocity.set(MathUtils.random(-50, 50), MathUtils.random(-200, -50));
+        }
+
+        public void update(float dt){
+            position.mulAdd(velocity, dt);
+            if (position.x > 1280){
+                position.x = 0;
+            }
+            if (position.x < 0){
+                position.x = 1280;
+            }
+            if (position.y < 0){
+                recreate();
+            }
+        }
+    }
+
+
     private static final char SYMB_GRASS = 'g';
     private char[][] data;
     private Texture groundTexture;
+    private Texture textureSnow;
+    private Snow[] snow;
 
 
     public Map(){
         groundTexture = new Texture("ground.png");
+        textureSnow = new Texture("snow.png");
         data = new char[32][18];
+        snow = new Snow[200];
+        for (int i = 0; i <snow.length ; i++) {
+            snow[i] = new Snow();
+            snow[i].recreate();
+        }
     }
 
 
@@ -48,6 +86,9 @@ public class Map{
                 }
             }
         }
+        for (int i = 0; i <snow.length ; i++) {
+            batch.draw(textureSnow, snow[i].position.x - 8, snow[i].position.y - 8);
+        }
     }
 
 
@@ -71,6 +112,8 @@ public class Map{
 
 
     public void update(float dt){
-
+        for (int i = 0; i <snow.length ; i++) {
+            snow[i].update(dt);
+        }
     }
 }

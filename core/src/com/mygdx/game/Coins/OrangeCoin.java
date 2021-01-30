@@ -14,20 +14,7 @@ public class OrangeCoin extends Coins{
         super(texture, position, circle);
     }
 
-    @Override
-    public void prepare() {
-        super.prepare();
-    }
 
-    @Override
-    public void render(SpriteBatch batch) {
-        super.render(batch);
-    }
-
-    @Override
-    public void update(float dt, Hero hero) {
-        super.update(dt, hero);
-    }
 }
 
 
