@@ -8,15 +8,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.game.Coins.RedCoin;
+import com.mygdx.game.MyGdxGame;
 
-public class MyGdxGame extends ApplicationAdapter {
+
+public class MyGdxGame extends ApplicationAdapter  {
 
 	private SpriteBatch batch;
 	private Map map;
 	private Hero hero;
 	private BitmapFont font;
+	private BitmapFont score;
 	private Trash[] trashes;
+	private RedCoin[] redCoins;
 
 	@Override
 	public void create () {
@@ -25,11 +29,18 @@ public class MyGdxGame extends ApplicationAdapter {
 		map.generateMap();
 		hero = new Hero(map, 300, 300);
 		generateFonts();
+		generateScoreFont();
 		Texture texture = new Texture("asteroid64.png");
+		Texture redCoin = new Texture("coin2.png");
 		trashes = new Trash[30];
+		redCoins = new RedCoin[5];
 		for (int i = 0; i < trashes.length ; i++) {
 			trashes[i] = new Trash(texture);
 			trashes[i].prepare();
+		}
+		for (int i = 0; i < redCoins.length ; i++) {
+			redCoins[i] = new RedCoin(redCoin);
+			redCoins[i].prepare();
 		}
 	}
 
@@ -49,6 +60,21 @@ public class MyGdxGame extends ApplicationAdapter {
 		generator.dispose();
 	}
 
+	public void generateScoreFont(){
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameters.size = 48;
+		parameters.color = Color.WHITE;
+		parameters.borderWidth = 2;
+		parameters.borderColor = Color.BLACK;
+		parameters.shadowOffsetX = 2;
+		parameters.shadowOffsetY = 2;
+		parameters.shadowColor = Color.BLACK;
+		font = generator.generateFont(parameters);
+		generator.dispose();
+	}
+
+
 
 	@Override
 	public void render () {
@@ -61,8 +87,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		for (int i = 0; i <trashes.length ; i++) {
 			trashes[i].render(batch);
 		}
+		for (int i = 0; i <redCoins.length ; i++) {
+			redCoins[i].render(batch);
+		}
 		hero.render(batch);
 		hero.renderGUI(batch, font);
+		hero.renderScore(batch, font);
 		batch.end();
 	}
 
@@ -76,7 +106,12 @@ public class MyGdxGame extends ApplicationAdapter {
 				hero.takeDamage(5);
 			}
 		}
+
+		for (int i = 0; i < redCoins.length; i++) {
+			redCoins[i].update(dt, hero);
+		}
 	}
+
 
 
 	@Override

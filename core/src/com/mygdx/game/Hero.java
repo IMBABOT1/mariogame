@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
+
 public class Hero {
     private Map map;
     private Texture texture;
@@ -21,6 +22,17 @@ public class Hero {
     private boolean right;
     private int maxHp;
 
+    public int getScore() {
+        return score;
+    }
+
+
+    private int score;
+
+
+    public int getHp() {
+        return hp;
+    }
 
     private int hp;
 
@@ -46,6 +58,7 @@ public class Hero {
         this.maxHp = 100;
         this.hp = this.maxHp;
         this.hitArea = new Circle(position, RADIUS);
+        this.score = 0;
     }
 
     public void update(float dt) {
@@ -108,6 +121,11 @@ public class Hero {
         hp -= damage;
     }
 
+
+    public void getScore(int sc){
+        score += sc;
+    }
+
     public void restartGame(){
         if (hp <= 0) {
             hp = 0;
@@ -159,6 +177,10 @@ public class Hero {
 
     public void renderGUI(SpriteBatch batch, BitmapFont font){
         font.draw(batch, "HP: " + hp + " / " + maxHp, 20, 700);
+    }
+
+    public void renderScore(SpriteBatch batch, BitmapFont font){
+        font.draw(batch, "Score: " + score + "", 900, 700);
     }
 
     public int getCurrentFrame(){
