@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,8 +12,14 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Coins.*;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Coins.GrennCoin;
+import com.mygdx.game.Coins.OrangeCoin;
+import com.mygdx.game.Coins.PurpleCoin;
+import com.mygdx.game.Coins.RedCoin;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class MyGdxGame extends ApplicationAdapter  {
@@ -21,7 +28,6 @@ public class MyGdxGame extends ApplicationAdapter  {
 	private Map map;
 	private Hero hero;
 	private BitmapFont font;
-	private BitmapFont score;
 	private Trash[] trashes;
 	private RedCoin[] redCoins;
 	private Vector2 redPosition;
@@ -31,6 +37,7 @@ public class MyGdxGame extends ApplicationAdapter  {
 	private GrennCoin[] grennCoins;
 	private Vector2 purplePosition;
 	private PurpleCoin[] purpleCoins;
+
 
 	@Override
 	public void create () {
@@ -43,7 +50,6 @@ public class MyGdxGame extends ApplicationAdapter  {
 		greenPosition = new Vector2(0, 0);
 		purplePosition = new Vector2(0, 0);
 		generateFonts();
-		generateScoreFont();
 		Texture texture = new Texture("asteroid64.png");
 		Texture redCoin = new Texture("coin2.png");
 		Texture orangeCoin = new Texture("coin1.png");
@@ -94,21 +100,6 @@ public class MyGdxGame extends ApplicationAdapter  {
 		font = generator.generateFont(parameters);
 		generator.dispose();
 	}
-
-	public void generateScoreFont(){
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameters.size = 48;
-		parameters.color = Color.WHITE;
-		parameters.borderWidth = 2;
-		parameters.borderColor = Color.BLACK;
-		parameters.shadowOffsetX = 2;
-		parameters.shadowOffsetY = 2;
-		parameters.shadowColor = Color.BLACK;
-		font = generator.generateFont(parameters);
-		generator.dispose();
-	}
-
 
 
 	@Override
@@ -178,11 +169,27 @@ public class MyGdxGame extends ApplicationAdapter  {
 				hero.getScore(10);
 			}
 		}
+		restartGame();
 
 	}
+
+	public void restartGame(){
+		if (hero.getHp() <= 0) {
+			hero.setHp(0);
+		}
+		if (hero.getHp() == 0){
+			if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+				hero.setVelocity(new Vector2(0, 0));
+			}
+			if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+				hero.setVelocity(new Vector2(0, 0));
+			}
+		}
+	}
+
+
 	@Override
 	public void dispose () {
 		batch.dispose();
-
 	}
 }

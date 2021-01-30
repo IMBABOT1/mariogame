@@ -17,21 +17,27 @@ public class Hero {
     private TextureRegion[] regions;
     private Vector2 position;
     private Vector2 tempPosition;
+
+
+
+    public void setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
+    }
+
     private Vector2 velocity;
     private float animationTime;
     private boolean right;
     private int maxHp;
-
-    public int getScore() {
-        return score;
-    }
-
 
     private int score;
 
 
     public int getHp() {
         return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     private int hp;
@@ -112,9 +118,6 @@ public class Hero {
             position.set(tempPosition);
             hitArea.setPosition(position.x + 50, position.y + 50);
         }
-        if (hp <= 0) {
-            restartGame();
-        }
     }
 
     public void takeDamage(int damage){
@@ -126,21 +129,6 @@ public class Hero {
         score += sc;
     }
 
-    public void restartGame(){
-        if (hp <= 0) {
-            hp = 0;
-        }
-        if (hp == 0){
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                velocity.x = 0;
-
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                velocity.x = 0;
-
-            }
-        }
-    }
 
 
 
@@ -186,6 +174,4 @@ public class Hero {
     public int getCurrentFrame(){
         return (int) animationTime % 6;
     }
-
-
 }
