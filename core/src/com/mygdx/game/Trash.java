@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -9,12 +10,12 @@ import com.badlogic.gdx.math.Vector2;
 public class Trash {
     private Vector2 position;
     private Vector2 velocity;
-    private Texture texture;
     private Circle hitArea;
+    private TextureRegion texture;
     private float scale;
     private float angle;
 
-    public Trash(Texture texture){
+    public Trash(TextureRegion texture){
         this.texture = texture;
         this.position = new Vector2(0, 0);
         this.velocity = new Vector2(0, 0);
@@ -35,7 +36,7 @@ public class Trash {
     }
 
     public void render(SpriteBatch batch){
-        batch.draw(texture, position.x - 32, position.y - 32, 32, 32, 64, 64, scale, scale, angle,0,0, 64, 64, false, false );
+        batch.draw(texture, position.x - 32, position.y - 32, 32, 32, 64, 64, scale, scale, angle);
     }
 
     public void update(float dt){

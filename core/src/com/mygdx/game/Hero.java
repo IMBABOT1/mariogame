@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Hero {
     private Map map;
-    private Texture texture;
     private Texture blood;
     private TextureRegion[] regions;
     private Vector2 position;
@@ -21,18 +20,10 @@ public class Hero {
     private float animationTime;
     private boolean right;
     private int maxHp;
-
-    public int getScore() {
-        return score;
-    }
+    private int coins;
 
 
-    private int score;
 
-
-    public int getHp() {
-        return hp;
-    }
 
     private int hp;
 
@@ -45,20 +36,18 @@ public class Hero {
     private Circle hitArea;
 
 
-    public Hero(Map map, float x, float y) {
+    public Hero(Map map, TextureRegion original, float x, float y) {
         this.map = map;
-        this.texture = new Texture("runner.png");
-        this.blood = new Texture("blood.png");
         this.position = new Vector2(x, y);
         this.velocity = new Vector2(0, 0);
         this.tempPosition = new Vector2(0, 0);
         this.animationTime = 0.0f;
-        this.regions = new TextureRegion(texture).split(100, 100)[0];
+        this.regions = new TextureRegion(original).split(100, 100)[0];
         this.right = true;
         this.maxHp = 100;
         this.hp = this.maxHp;
         this.hitArea = new Circle(position, RADIUS);
-        this.score = 0;
+        this.coins = 0;
     }
 
     public void update(float dt) {
@@ -122,8 +111,8 @@ public class Hero {
     }
 
 
-    public void getScore(int sc){
-        score += sc;
+    public void addCoins(int amount){
+        coins += amount;
     }
 
     public void restartGame(){
@@ -176,12 +165,9 @@ public class Hero {
     }
 
     public void renderGUI(SpriteBatch batch, BitmapFont font){
-        font.draw(batch, "HP: " + hp + " / " + maxHp, 20, 700);
+        font.draw(batch, "HP: " + hp + " / " + maxHp + "\nCoins: " + coins, 20, 700);
     }
 
-    public void renderScore(SpriteBatch batch, BitmapFont font){
-        font.draw(batch, "Score: " + score + "", 900, 700);
-    }
 
     public int getCurrentFrame(){
         return (int) animationTime % 6;

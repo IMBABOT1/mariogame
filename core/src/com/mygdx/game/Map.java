@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
@@ -17,7 +18,7 @@ public class Map{
 
         public void recreate(){
             this.position.set(MathUtils.random(0, 1280), MathUtils.random(720, 1440));
-            this.velocity.set(MathUtils.random(-50, 50), MathUtils.random(-200, -50));
+            this.velocity.set(MathUtils.random(-50, 50), MathUtils.random(-300, -100));
         }
 
         public void update(float dt){
@@ -34,19 +35,19 @@ public class Map{
         }
     }
 
-
+    public static final int SNOW_FLAKES_COUNT = 100;
     private static final char SYMB_GRASS = 'g';
     private char[][] data;
-    private Texture groundTexture;
-    private Texture textureSnow;
+    private TextureRegion textureSnow;
+    private TextureRegion groundTexture;
     private Snow[] snow;
 
 
-    public Map(){
-        groundTexture = new Texture("ground.png");
-        textureSnow = new Texture("snow.png");
+    public Map(TextureRegion textureSnow, TextureRegion groundTexture){
+        this.groundTexture = groundTexture;
+        this.textureSnow = textureSnow;
         data = new char[32][18];
-        snow = new Snow[200];
+        snow = new Snow[SNOW_FLAKES_COUNT];
         for (int i = 0; i <snow.length ; i++) {
             snow[i] = new Snow();
             snow[i].recreate();
