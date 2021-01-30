@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Coins.Coins;
 import com.mygdx.game.Coins.RedCoin;
 import com.mygdx.game.MyGdxGame;
 
@@ -23,7 +24,7 @@ public class MyGdxGame extends ApplicationAdapter  {
 	private BitmapFont font;
 	private BitmapFont score;
 	private Trash[] trashes;
-	private RedCoin[] redCoins;
+	private Coins[] coins;
 	private Vector2 redPosition;
 
 	@Override
@@ -38,14 +39,14 @@ public class MyGdxGame extends ApplicationAdapter  {
 		Texture texture = new Texture("asteroid64.png");
 		Texture redCoin = new Texture("coin2.png");
 		trashes = new Trash[30];
-		redCoins = new RedCoin[5];
+		coins = new Coins[5];
 		for (int i = 0; i < trashes.length ; i++) {
 			trashes[i] = new Trash(texture);
 			trashes[i].prepare();
 		}
-		for (int i = 0; i < redCoins.length ; i++) {
-			redCoins[i] = new RedCoin(redCoin,  redPosition.set(MathUtils.random(0, 1280), MathUtils.random(250, 300)), new Circle(redPosition, 60));
-			redCoins[i].prepare();
+		for (int i = 0; i < coins.length ; i++) {
+			coins[i] = new RedCoin(redCoin,  redPosition.set(MathUtils.random(0, 1280), MathUtils.random(250, 300)), new Circle(redPosition, 60));
+			coins[i].prepare();
 		}
 	}
 
@@ -92,8 +93,8 @@ public class MyGdxGame extends ApplicationAdapter  {
 		for (int i = 0; i <trashes.length ; i++) {
 			trashes[i].render(batch);
 		}
-		for (int i = 0; i <redCoins.length ; i++) {
-			redCoins[i].render(batch);
+		for (int i = 0; i <coins.length ; i++) {
+			coins[i].render(batch);
 		}
 		hero.render(batch);
 		hero.renderGUI(batch, font);
@@ -112,8 +113,8 @@ public class MyGdxGame extends ApplicationAdapter  {
 			}
 		}
 
-		for (int i = 0; i < redCoins.length; i++) {
-			redCoins[i].update(dt, hero);
+		for (int i = 0; i < coins.length; i++) {
+			coins[i].update(dt, hero);
 		}
 	}
 

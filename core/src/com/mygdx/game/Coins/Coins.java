@@ -23,7 +23,7 @@ public class Coins {
 
 
     public void prepare(){
-        position.set(MathUtils.random(0, 1280), MathUtils.random(150, 200));
+        position.set(MathUtils.random(0, 1280), MathUtils.random(300, 350));
         hitArea.setPosition(position);
         scale = MathUtils.random(0.2f, 0.6f);
         hitArea.radius = 60 * scale;
