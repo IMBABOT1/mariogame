@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Coins.RedCoin;
 import com.mygdx.game.MyGdxGame;
 
@@ -21,6 +24,7 @@ public class MyGdxGame extends ApplicationAdapter  {
 	private BitmapFont score;
 	private Trash[] trashes;
 	private RedCoin[] redCoins;
+	private Vector2 redPosition;
 
 	@Override
 	public void create () {
@@ -28,6 +32,7 @@ public class MyGdxGame extends ApplicationAdapter  {
 		map = new Map();
 		map.generateMap();
 		hero = new Hero(map, 300, 300);
+		redPosition = new Vector2(0, 0);
 		generateFonts();
 		generateScoreFont();
 		Texture texture = new Texture("asteroid64.png");
@@ -39,7 +44,7 @@ public class MyGdxGame extends ApplicationAdapter  {
 			trashes[i].prepare();
 		}
 		for (int i = 0; i < redCoins.length ; i++) {
-			redCoins[i] = new RedCoin(redCoin);
+			redCoins[i] = new RedCoin(redCoin,  redPosition.set(MathUtils.random(0, 1280), MathUtils.random(250, 300)), new Circle(redPosition, 60));
 			redCoins[i].prepare();
 		}
 	}
