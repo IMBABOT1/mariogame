@@ -35,19 +35,17 @@ public class Monster {
 
     }
 
+
+
     public void render(SpriteBatch batch){
         int frameIndex = getCurrentFrame();
-        batch.draw(regions[frameIndex], position.x, position.y, 50, 50, 100, 100, 1, 1, 0);
-    }
-
-
-    public boolean checkCollision(Vector2 position){
-        for (float i = 0; i <6.28 ; i+= 0.1f) {
-            if (!map.checkSpaceIsEmpty(position.x + RADIUS * (float) Math.cos(i), position.y + RADIUS * (float) Math.sin(i))){
-                return true;
-            }
+        if (!right && !regions[frameIndex].isFlipX()) {
+            regions[frameIndex].flip(true, false);
         }
-        return false;
+        if (right && regions[frameIndex].isFlipX()) {
+            regions[frameIndex].flip(true, false);
+        }
+        batch.draw(regions[frameIndex], position.x, position.y, 50, 50, 100, 100, 1, 1, 0);
     }
 
     public void update(float dt){
@@ -56,44 +54,29 @@ public class Monster {
         tempPosition.add(50, 50);
         velocity.x *= 0.8f;
 
+            if (tempPosition.y > hero.getPosition().y){
+                tempPosition.y = hero.getPosition().y + 80;
 
-        if (tempPosition.x > hero.getPosition().x) {
-            velocity.set(-50 * dt, 0);
-            tempPosition.add(velocity);
-        }
-        if (tempPosition.x < hero.getPosition().x){
-            velocity.set(50 * dt, 0);
-            tempPosition.add(velocity);
-        }
-
-
-        float len = velocity.len() * dt;
-        float dx = velocity.x * dt / len;
-        float dy = velocity.y * dt / len;
-        for (int i = 0; i < len; i++) {
-            tempPosition.y += dy;
-            if (checkCollision(tempPosition)) {
-                tempPosition.y -= dy;
-                velocity.y = 0.0f;
+            if (tempPosition.x > hero.getPosition().x) {
+                velocity.set(-200 * dt, -20 * dt);
+                tempPosition.add(velocity);
+                right = false;
             }
-            tempPosition.x += dx;
-            if (checkCollision(tempPosition)) {
-                tempPosition.x -= dx;
-                velocity.x = 0.0f;
+            if (tempPosition.x < hero.getPosition().x) {
+                velocity.set(200 * dt, 0);
+                tempPosition.add(velocity);
+                right = true;
             }
         }
-
-
-
 
 
         if (Math.abs(velocity.x) > 1.0f) {
             if (Math.abs(velocity.y) < 1.0f) {
-                animationTime += (Math.abs(velocity.x) / 1200.0f);
+                animationTime += (200) / 2000.0f;
             }
         } else {
             if (getCurrentFrame() > 0) {
-                animationTime += dt * 10.0f;
+                animationTime = dt * 10.0f;
             }
         }
         tempPosition.add(-50, -50);
