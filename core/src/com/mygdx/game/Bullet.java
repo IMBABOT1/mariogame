@@ -9,6 +9,12 @@ public class Bullet implements Poolable {
     private Vector2 velocity;
     private boolean active;
 
+    public float getDamage() {
+        return damage;
+    }
+
+    private int damage;
+
     public boolean isPlayersBullet() {
         return isPlayersBullet;
     }
@@ -25,6 +31,7 @@ public class Bullet implements Poolable {
         this.position = new Vector2(0.0f, 0.0f);
         this.velocity = new Vector2(0.0f, 0.0f);
         this.active = false;
+        this.damage = 5;
     }
 
     public void deactivate() {
@@ -43,5 +50,9 @@ public class Bullet implements Poolable {
         if (position.x > 1280 || position.x < 0 || position.y < 0 || position.y > 720) {
             deactivate();
         }
+    }
+
+    public void hit(Monster monster){
+        monster.hit(damage);
     }
 }

@@ -23,6 +23,11 @@ public class BaseUnit {
 
     protected Vector2 position;
     protected Vector2 tempPosition;
+
+    public Vector2 getVelocity() {
+        return velocity;
+    }
+
     protected Vector2 velocity;
     protected float animationTime;
     protected boolean right;
@@ -40,8 +45,15 @@ public class BaseUnit {
     }
     protected float speed;
     protected int radius;
+    protected Bullet bullet;
 
-    public BaseUnit(GameScreen gameScreen, Map map, TextureRegion original, int maxHp, float speed, float radius, float x, float y, int width, int height) {
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    protected boolean isAlive;
+
+    public BaseUnit(GameScreen gameScreen, Map map, TextureRegion original, int maxHp, float speed, float timeBetweenFire, float radius, float x, float y, int width, int height, boolean isAlive) {
         this.gameScreen = gameScreen;
         this.map = map;
         this.width = width;
@@ -55,8 +67,9 @@ public class BaseUnit {
         this.maxHp = maxHp;
         this.hp = this.maxHp;
         this.hitArea = new Circle(position, radius);
-        this.timeBetweenFire = 0.2f;
+        this.timeBetweenFire = timeBetweenFire;
         this.speed = speed;
+        this.isAlive = true;
     }
 
     public void update(float dt) {
@@ -109,18 +122,19 @@ public class BaseUnit {
     }
 
     public void jump(){
-        if (Math.abs(velocity.y) < 0.1f) {
+        tempPosition.set(position).add(0, 1);
+        if (Math.abs(velocity.y) < 0.1f && checkCollision(tempPosition)) {
             velocity.y = 400.0f;
         }
     }
 
-    public void fire(float dt){
+    public void fire(float dt, boolean isPlayer){
         firePressTimer += dt;
         if (firePressTimer > timeBetweenFire){
             firePressTimer -= timeBetweenFire;
             float bulletVelX = 600.0f;
             if (!right) bulletVelX *= -1;
-            gameScreen.getBulletEmitter().setup(true, position.x + width / 2, position.y + height / 2, bulletVelX, 0);
+            gameScreen.getBulletEmitter().setup(isPlayer, position.x + width / 2, position.y + height / 2, bulletVelX, 0);
         }
     }
 

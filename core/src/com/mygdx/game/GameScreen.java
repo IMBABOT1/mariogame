@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen implements Screen {
     private TextureAtlas atlas;
@@ -37,6 +38,8 @@ public class GameScreen implements Screen {
     private static final boolean DEBUG_MODE = true;
 
 
+
+
     public GameScreen(SpriteBatch batch){
         this.batch = batch;
     }
@@ -47,7 +50,7 @@ public class GameScreen implements Screen {
         atlas = new TextureAtlas(Gdx.files.internal("mainPack.pack"));
         map = new Map(atlas.findRegion("star16"), atlas.findRegion("ground"));
         map.generateMap();
-        hero = new Hero(this, map, atlas.findRegion("runner"), 300, 300);
+        hero = new Hero(this, map, atlas.findRegion("runner"),300, 300);
         generateFonts();
         TextureRegion asteroidTexture = atlas.findRegion("asteroid64");
         trashes = new Trash[30];
@@ -98,10 +101,13 @@ public class GameScreen implements Screen {
         if (DEBUG_MODE) {
             shapeRenderer.begin();
             shapeRenderer.circle(hero.getHitArea().x, hero.getHitArea().y, hero.getHitArea().radius);
+            shapeRenderer.circle(monster.getHitArea().x, monster.getHitArea().y, monster.getHitArea().radius);
             shapeRenderer.end();
+
         }
 
     }
+
 
     public void update(float dt) {
         counter++;
@@ -127,9 +133,28 @@ public class GameScreen implements Screen {
                 p.deactivate();
             }
         }
+
+        for (int i = 0; i < bulletEmitter.getActiveList().size(); i++) {
+            if (!map.checkSpaceIsEmpty(bulletEmitter.getActiveList().get(i).getPosition().x, bulletEmitter.getActiveList().get(i).getPosition().y)) {
+                Bullet b = bulletEmitter.getActiveList().get(i);
+                bulletEmitter.getActiveList().get(i).deactivate();
+            }
+        }
+
+        for (int i = 0; i < bulletEmitter.getActiveList().size(); i++) {
+            Bullet b = bulletEmitter.getActiveList().get(i);
+            if (b.isPlayersBullet() && monster.getHitArea().contains(b.getPosition())){
+                System.out.println(1);
+                System.out.println(monster.hp);
+                b.hit(monster);
+                bulletEmitter.getActiveList().get(i).deactivate();
+            }
+        }
         bulletEmitter.checkPool();
 
     }
+
+
 
     @Override
     public void resize(int width, int height) {

@@ -19,7 +19,7 @@ public class Hero extends BaseUnit{
     }
 
     public Hero(GameScreen gameScreen, Map map, TextureRegion original, float x, float y) {
-        super(gameScreen, map, original, 100, 360.0f, 35, x, y, 100, 100);
+        super(gameScreen, map, original, 100, 360.0f, 0.4f, 35, x, y, 100, 100, true);
         this.coins = 0;
     }
 
@@ -35,7 +35,7 @@ public class Hero extends BaseUnit{
             jump();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.L)) {
-            fire(dt);
+            fire(dt, true);
         }
         super.update(dt);
     }
