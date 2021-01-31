@@ -10,18 +10,31 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 
 public class GameScreen implements Screen {
     private TextureAtlas atlas;
     private SpriteBatch batch;
     private Map map;
+
+    public Hero getHero() {
+        return hero;
+    }
+
     private Hero hero;
     private BitmapFont font;
     private Trash[] trashes;
+
+    public BulletEmitter getBulletEmitter() {
+        return bulletEmitter;
+    }
+    private Monster monster;
+    private BulletEmitter bulletEmitter;
     private PowerUpsEmitter powerUpsEmitter;
     private int counter;
-    private Monster monster;
+    private ShapeRenderer shapeRenderer;
+    private static final boolean DEBUG_MODE = true;
 
 
     public GameScreen(SpriteBatch batch){
@@ -34,16 +47,21 @@ public class GameScreen implements Screen {
         atlas = new TextureAtlas(Gdx.files.internal("mainPack.pack"));
         map = new Map(atlas.findRegion("star16"), atlas.findRegion("ground"));
         map.generateMap();
-        hero = new Hero(map, atlas.findRegion("runner"), 300, 300);
-        monster = new Monster(map, atlas.findRegion("runner"), 600, 600, hero);
+        hero = new Hero(this, map, atlas.findRegion("runner"), 300, 300);
         generateFonts();
         TextureRegion asteroidTexture = atlas.findRegion("asteroid64");
         trashes = new Trash[30];
+        monster = new Monster(this, map, atlas.findRegion("runner"), 700, 500);
         for (int i = 0; i < trashes.length ; i++) {
             trashes[i] = new Trash(asteroidTexture);
             trashes[i].prepare();
         }
+        bulletEmitter = new BulletEmitter(atlas.findRegion("bullet48"), 0);
         powerUpsEmitter = new PowerUpsEmitter(atlas.findRegion("money"));
+        if (DEBUG_MODE) {
+            shapeRenderer = new ShapeRenderer();
+            shapeRenderer.setAutoShapeType(true);
+        }
     }
 
     public void generateFonts(){
@@ -64,7 +82,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
-        Gdx.gl.glClearColor(0.9f, 0.9f, 1, 1);
+        Gdx.gl.glClearColor(0.1f, 0.1f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         map.render(batch);
@@ -73,9 +91,15 @@ public class GameScreen implements Screen {
         }
         hero.render(batch);
         monster.render(batch);
+        bulletEmitter.render(batch);
         powerUpsEmitter.render(batch);
         hero.renderGUI(batch, font);;
         batch.end();
+        if (DEBUG_MODE) {
+            shapeRenderer.begin();
+            shapeRenderer.circle(hero.getHitArea().x, hero.getHitArea().y, hero.getHitArea().radius);
+            shapeRenderer.end();
+        }
 
     }
 
@@ -88,6 +112,7 @@ public class GameScreen implements Screen {
         hero.update(dt);
         monster.update(dt);
         powerUpsEmitter.update(dt);
+        bulletEmitter.update(dt);
         for (int i = 0; i < trashes.length; i++) {
             trashes[i].update(dt);
             if (hero.getHitArea().overlaps(trashes[i].getHitArea())) {
@@ -102,6 +127,7 @@ public class GameScreen implements Screen {
                 p.deactivate();
             }
         }
+        bulletEmitter.checkPool();
 
     }
 
@@ -127,6 +153,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        atlas.dispose();
+        if (DEBUG_MODE){
+            shapeRenderer.dispose();
+        }
     }
 }

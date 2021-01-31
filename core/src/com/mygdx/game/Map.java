@@ -35,7 +35,8 @@ public class Map{
         }
     }
 
-    public static final int SNOW_FLAKES_COUNT = 100;
+    private static final boolean SNOW_ENABLE = false;
+    private static final int SNOW_FLAKES_COUNT = 100;
     private static final char SYMB_GRASS = 'g';
     private char[][] data;
     private TextureRegion textureSnow;
@@ -51,6 +52,9 @@ public class Map{
         for (int i = 0; i <snow.length ; i++) {
             snow[i] = new Snow();
             snow[i].recreate();
+        }
+        if (!SNOW_ENABLE){
+            snow = new Snow[0];
         }
     }
 
