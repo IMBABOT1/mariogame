@@ -2,9 +2,9 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen implements Screen {
     private TextureAtlas atlas;
@@ -36,6 +35,7 @@ public class GameScreen implements Screen {
     private int counter;
     private ShapeRenderer shapeRenderer;
     private static final boolean DEBUG_MODE = true;
+    private Sound sound;
 
 
 
@@ -59,6 +59,7 @@ public class GameScreen implements Screen {
             trashes[i] = new Trash(asteroidTexture);
             trashes[i].prepare();
         }
+        sound = Gdx.audio.newSound(Gdx.files.internal("shot.wav"));
         bulletEmitter = new BulletEmitter(atlas.findRegion("bullet48"), 0);
         powerUpsEmitter = new PowerUpsEmitter(atlas.findRegion("money"));
         if (DEBUG_MODE) {
@@ -144,8 +145,8 @@ public class GameScreen implements Screen {
         for (int i = 0; i < bulletEmitter.getActiveList().size(); i++) {
             Bullet b = bulletEmitter.getActiveList().get(i);
             if (b.isPlayersBullet() && monster.getHitArea().contains(b.getPosition())){
+                sound.play();
                 System.out.println(1);
-                System.out.println(monster.hp);
                 b.hit(monster);
                 bulletEmitter.getActiveList().get(i).deactivate();
             }
