@@ -31,7 +31,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         atlas = new TextureAtlas();
-        atlas = new TextureAtlas(Gdx.files.internal("123.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal("mainPack.pack"));
         map = new Map(atlas.findRegion("star16"), atlas.findRegion("ground"));
         map.generateMap();
         hero = new Hero(map, atlas.findRegion("runner"), 300, 300);
