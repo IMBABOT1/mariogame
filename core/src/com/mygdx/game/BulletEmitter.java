@@ -24,7 +24,7 @@ public class BulletEmitter extends ObjectPool<Bullet> {
 
     public void render(SpriteBatch batch) {
         for (int i = 0; i < activeList.size(); i++) {
-            batch.draw(bulletTexture, activeList.get(i).getPosition().x - 24, activeList.get(i).getPosition().y - 24, 24, 24, 48, 48, 0.7f, 0.7f, 0.0f);
+            batch.draw(bulletTexture, activeList.get(i).getPosition().x - 24, activeList.get(i).getPosition().y - 24, 24, 24, 48, 48, 0.2f, 0.2f, 0.0f);
         }
     }
 

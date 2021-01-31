@@ -5,13 +5,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen implements Screen {
     private TextureAtlas atlas;
@@ -36,6 +39,8 @@ public class GameScreen implements Screen {
     private ShapeRenderer shapeRenderer;
     private static final boolean DEBUG_MODE = true;
     private Sound sound;
+    private Medkit medkit;
+    private Vector2 medkitt;
 
 
 
@@ -50,6 +55,8 @@ public class GameScreen implements Screen {
     public void show() {
         atlas = new TextureAtlas();
         atlas = new TextureAtlas(Gdx.files.internal("mainPack.pack"));
+        Texture meds = new Texture("coin1.png");
+        medkitt = new Vector2(0, 0);
         map = new Map(atlas.findRegion("star16"), atlas.findRegion("ground"));
         map.generateMap();
         hero = new Hero(this, map, atlas.findRegion("runner"),300, 300);
@@ -57,6 +64,8 @@ public class GameScreen implements Screen {
         TextureRegion asteroidTexture = atlas.findRegion("asteroid64");
         trashes = new Trash[30];
         monster = new Monster(this, map, atlas.findRegion("runner"), 700, 500);
+        medkit = new Medkit(meds,  medkitt.set(MathUtils.random(0, 1280), MathUtils.random(10, 75)), new Circle(medkitt, 60));
+        medkit.prepare();
         for (int i = 0; i < trashes.length ; i++) {
             trashes[i] = new Trash(asteroidTexture);
             trashes[i].prepare();
@@ -65,7 +74,7 @@ public class GameScreen implements Screen {
 
 
         sound = Gdx.audio.newSound(Gdx.files.internal("shot.wav"));
-        bulletEmitter = new BulletEmitter(atlas.findRegion("bullet48"), 0);
+        bulletEmitter = new BulletEmitter(atlas.findRegion("bullet"), 0);
         powerUpsEmitter = new PowerUpsEmitter(atlas.findRegion("money"));
         if (DEBUG_MODE) {
             shapeRenderer = new ShapeRenderer();
@@ -99,6 +108,7 @@ public class GameScreen implements Screen {
             trashes[i].render(batch);
         }
         hero.render(batch);
+        medkit.render(batch);
         monster.render(batch);
         bulletEmitter.render(batch);
         powerUpsEmitter.render(batch);
@@ -123,6 +133,7 @@ public class GameScreen implements Screen {
         map.update(dt);
         hero.update(dt);
         monster.update(dt);
+        medkit.update(dt, hero);
         powerUpsEmitter.update(dt);
         bulletEmitter.update(dt);
         for (int i = 0; i < trashes.length; i++) {

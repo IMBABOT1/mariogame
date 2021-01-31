@@ -44,6 +44,11 @@ public class Hero extends BaseUnit{
         coins += amount;
     }
 
+    public void addLive(){
+        hp = maxHp;
+    }
+
+
     public void renderGUI(SpriteBatch batch, BitmapFont font){
         font.draw(batch, "HP: " + hp + " / " + maxHp + "\nCoins: " + coins, 20, 700);
     }

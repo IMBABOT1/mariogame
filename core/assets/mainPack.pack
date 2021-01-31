@@ -3,6 +3,13 @@ texturePack1.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+monster
+  rotate: false
+  xy: 2, 2
+  size: 600, 100
+  orig: 600, 100
+  offset: 0, 0
+  index: -1
 runner
   rotate: false
   xy: 2, 2
@@ -10,37 +17,44 @@ runner
   orig: 600, 100
   offset: 0, 0
   index: -1
-asteroid64
+coin1
   rotate: false
   xy: 604, 2
+  size: 68, 68
+  orig: 68, 68
+  offset: 0, 0
+  index: -1
+asteroid64
+  rotate: false
+  xy: 674, 2
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-bullet48
-  rotate: false
-  xy: 604, 68
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: -1
-ground
-  rotate: false
-  xy: 670, 2
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: -1
 money
   rotate: false
-  xy: 712, 2
+  xy: 740, 2
   size: 96, 32
   orig: 96, 32
   offset: 0, 0
   index: -1
+ground
+  rotate: false
+  xy: 740, 36
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+bullet
+  rotate: false
+  xy: 604, 72
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: -1
 star16
   rotate: false
-  xy: 2, 104
+  xy: 625, 72
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
