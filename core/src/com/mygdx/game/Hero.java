@@ -14,6 +14,11 @@ public class Hero {
     private Map map;
     private Texture blood;
     private TextureRegion[] regions;
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
     private Vector2 position;
     private Vector2 tempPosition;
     private Vector2 velocity;

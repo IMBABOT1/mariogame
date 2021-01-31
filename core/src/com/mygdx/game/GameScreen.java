@@ -21,6 +21,7 @@ public class GameScreen implements Screen {
     private Trash[] trashes;
     private PowerUpsEmitter powerUpsEmitter;
     private int counter;
+    private Monster monster;
 
 
     public GameScreen(SpriteBatch batch){
@@ -34,6 +35,7 @@ public class GameScreen implements Screen {
         map = new Map(atlas.findRegion("star16"), atlas.findRegion("ground"));
         map.generateMap();
         hero = new Hero(map, atlas.findRegion("runner"), 300, 300);
+        monster = new Monster(map, atlas.findRegion("monster"), 600, 600, hero);
         generateFonts();
         TextureRegion asteroidTexture = atlas.findRegion("asteroid64");
         trashes = new Trash[30];
@@ -70,6 +72,7 @@ public class GameScreen implements Screen {
             trashes[i].render(batch);
         }
         hero.render(batch);
+        monster.render(batch);
         powerUpsEmitter.render(batch);
         hero.renderGUI(batch, font);;
         batch.end();
@@ -83,6 +86,7 @@ public class GameScreen implements Screen {
         }
         map.update(dt);
         hero.update(dt);
+        monster.update(dt);
         powerUpsEmitter.update(dt);
         for (int i = 0; i < trashes.length; i++) {
             trashes[i].update(dt);
