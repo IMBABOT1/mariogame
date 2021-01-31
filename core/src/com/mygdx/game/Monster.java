@@ -57,9 +57,14 @@ public class Monster {
         velocity.x *= 0.8f;
 
 
-
-
-
+        if (tempPosition.x > hero.getPosition().x) {
+            velocity.set(-50 * dt, 0);
+            tempPosition.add(velocity);
+        }
+        if (tempPosition.x < hero.getPosition().x){
+            velocity.set(50 * dt, 0);
+            tempPosition.add(velocity);
+        }
 
 
         float len = velocity.len() * dt;
