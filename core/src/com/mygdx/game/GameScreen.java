@@ -40,6 +40,8 @@ public class GameScreen implements Screen {
 
 
 
+
+
     public GameScreen(SpriteBatch batch){
         this.batch = batch;
     }
@@ -59,6 +61,9 @@ public class GameScreen implements Screen {
             trashes[i] = new Trash(asteroidTexture);
             trashes[i].prepare();
         }
+
+
+
         sound = Gdx.audio.newSound(Gdx.files.internal("shot.wav"));
         bulletEmitter = new BulletEmitter(atlas.findRegion("bullet48"), 0);
         powerUpsEmitter = new PowerUpsEmitter(atlas.findRegion("money"));
@@ -127,6 +132,14 @@ public class GameScreen implements Screen {
                 hero.takeDamage(5);
             }
         }
+
+        monster.update(dt);
+
+
+
+
+
+
         for (int i = 0; i < powerUpsEmitter.getPowerUps().length ; i++) {
             PowerUp p = powerUpsEmitter.getPowerUps()[i];
             if (p.isActive() && hero.getHitArea().contains(p.getPosition())){
@@ -146,7 +159,6 @@ public class GameScreen implements Screen {
             Bullet b = bulletEmitter.getActiveList().get(i);
             if (b.isPlayersBullet() && monster.getHitArea().contains(b.getPosition())){
                 sound.play();
-                System.out.println(1);
                 b.hit(monster);
                 bulletEmitter.getActiveList().get(i).deactivate();
             }

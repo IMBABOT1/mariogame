@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public abstract class ObjectPool<T extends Poolable> {
     }
 
     protected abstract T newObject();
+    protected abstract T newObject1(GameScreen gameScreen, Map map, TextureRegion original, float x, float y);
 
     public void free(int index) {
         freeList.add(activeList.remove(index));

@@ -152,18 +152,14 @@ public class BaseUnit {
 
     public void render(SpriteBatch batch) {
         // batch.draw(texture, position.x, position.y, 50, 50, 100, 100, 1f, 1f, 0, 0, 0, 100, 100, false, false);
-
-        if (hp > 0) {
-            int frameIndex = getCurrentFrame();
-            if (!right && !regions[frameIndex].isFlipX()) {
-                regions[frameIndex].flip(true, false);
-            }
-            if (right && regions[frameIndex].isFlipX()) {
-                regions[frameIndex].flip(true, false);
-            }
-            batch.draw(regions[frameIndex], position.x, position.y, width/2, height/2, width, height, 1, 1, 0);
+        int frameIndex = getCurrentFrame();
+        if (!right && !regions[frameIndex].isFlipX()) {
+            regions[frameIndex].flip(true, false);
         }
-
+        if (right && regions[frameIndex].isFlipX()) {
+            regions[frameIndex].flip(true, false);
+        }
+        batch.draw(regions[frameIndex], position.x, position.y, width/2, height/2, width, height, 1, 1, 0);
     }
 
 

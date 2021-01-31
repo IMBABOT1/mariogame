@@ -12,6 +12,11 @@ public class BulletEmitter extends ObjectPool<Bullet> {
         return new Bullet();
     }
 
+    @Override
+    protected Bullet newObject1(GameScreen gameScreen, Map map, TextureRegion original, float x, float y) {
+        return null;
+    }
+
     public BulletEmitter(TextureRegion bulletsTexture, int size) {
         super(size);
         this.bulletTexture = bulletsTexture;
