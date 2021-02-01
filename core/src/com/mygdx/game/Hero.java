@@ -14,22 +14,20 @@ public class Hero extends BaseUnit{
 
     private int coins;
 
-    public Circle getHitArea(){
-        return hitArea;
-    }
+
 
     public Hero(GameScreen gameScreen, Map map, TextureRegion original, float x, float y) {
-        super(gameScreen, map, original, 100, 360.0f, 0.4f, 35, x, y, 100, 100, true);
+        super(gameScreen, map, original, 100, 360.0f, 0.4f, 35, x, y, 100, 100);
         this.coins = 0;
     }
 
     @Override
     public void update(float dt) {
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-           moveRight();
+            moveRight();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-          moveLeft();
+            moveLeft();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             jump();

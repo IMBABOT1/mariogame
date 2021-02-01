@@ -53,7 +53,4 @@ public class Bullet implements Poolable {
         }
     }
 
-    public void hit(Monster monster){
-        monster.hit(damage);
-    }
 }

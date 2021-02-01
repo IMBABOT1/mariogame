@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
+
 public class GameScreen implements Screen {
     private TextureAtlas atlas;
     private SpriteBatch batch;
@@ -105,14 +106,6 @@ public class GameScreen implements Screen {
         powerUpsEmitter.render(batch);
         hero.renderGUI(batch, font);;
         batch.end();
-        if (DEBUG_MODE) {
-            shapeRenderer.begin();
-            shapeRenderer.circle(hero.getHitArea().x, hero.getHitArea().y, hero.getHitArea().radius);
-            shapeRenderer.circle(monster.getHitArea().x, monster.getHitArea().y, monster.getHitArea().radius);
-            shapeRenderer.end();
-
-        }
-
     }
 
 
@@ -160,7 +153,6 @@ public class GameScreen implements Screen {
             Bullet b = bulletEmitter.getActiveList().get(i);
             if (b.isPlayersBullet() && monster.getHitArea().contains(b.getPosition())){
                 sound.play();
-                b.hit(monster);
                 bulletEmitter.getActiveList().get(i).deactivate();
             }
         }
