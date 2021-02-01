@@ -39,10 +39,6 @@ public class GameScreen implements Screen {
     private ShapeRenderer shapeRenderer;
     private static final boolean DEBUG_MODE = true;
     private Sound sound;
-    private Medkit medkit;
-    private Vector2 medkitt;
-
-
 
 
 
@@ -54,9 +50,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         atlas = new TextureAtlas();
-        atlas = new TextureAtlas(Gdx.files.internal("mainPack.pack"));
-        Texture meds = new Texture("coin1.png");
-        medkitt = new Vector2(0, 0);
+        atlas = new TextureAtlas(Gdx.files.internal("newPack.pack"));
         map = new Map(atlas.findRegion("star16"), atlas.findRegion("ground"));
         map.generateMap();
         hero = new Hero(this, map, atlas.findRegion("runner"),300, 300);
@@ -64,8 +58,6 @@ public class GameScreen implements Screen {
         TextureRegion asteroidTexture = atlas.findRegion("asteroid64");
         trashes = new Trash[30];
         monster = new Monster(this, map, atlas.findRegion("runner"), 700, 500);
-        medkit = new Medkit(meds,  medkitt.set(MathUtils.random(0, 1280), MathUtils.random(10, 75)), new Circle(medkitt, 60));
-        medkit.prepare();
         for (int i = 0; i < trashes.length ; i++) {
             trashes[i] = new Trash(asteroidTexture);
             trashes[i].prepare();
@@ -75,7 +67,7 @@ public class GameScreen implements Screen {
 
         sound = Gdx.audio.newSound(Gdx.files.internal("shot.wav"));
         bulletEmitter = new BulletEmitter(atlas.findRegion("bullet"), 0);
-        powerUpsEmitter = new PowerUpsEmitter(atlas.findRegion("money"));
+        powerUpsEmitter = new PowerUpsEmitter(atlas.findRegion("money1"));
         if (DEBUG_MODE) {
             shapeRenderer = new ShapeRenderer();
             shapeRenderer.setAutoShapeType(true);
@@ -108,7 +100,6 @@ public class GameScreen implements Screen {
             trashes[i].render(batch);
         }
         hero.render(batch);
-        medkit.render(batch);
         monster.render(batch);
         bulletEmitter.render(batch);
         powerUpsEmitter.render(batch);
@@ -133,7 +124,6 @@ public class GameScreen implements Screen {
         map.update(dt);
         hero.update(dt);
         monster.update(dt);
-        medkit.update(dt, hero);
         powerUpsEmitter.update(dt);
         bulletEmitter.update(dt);
         for (int i = 0; i < trashes.length; i++) {

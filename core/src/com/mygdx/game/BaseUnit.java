@@ -45,7 +45,6 @@ public class BaseUnit {
     }
     protected float speed;
     protected int radius;
-    protected Bullet bullet;
 
     public boolean isAlive() {
         return isAlive;
